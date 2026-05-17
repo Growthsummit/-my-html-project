@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Final Examinations — BSCBITY2S2</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -9,763 +9,587 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream:     #faf7f2;
-      --warm-off:  #f3ede3;
-      --sand:      #e8dece;
-      --stone:     #c4b49a;
-      --ink:       #1a1610;
-      --ink-mid:   #4a4035;
-      --ink-light: #7a6e62;
-      --amber:     #c97c2e;
-      --amber-lt:  #f0c07a;
-      --amber-bg:  #fdf3e0;
-      --green:     #3a6b4a;
-      --green-lt:  #d4ead9;
-      --red:       #9b2929;
-      --red-lt:    #f5dede;
-      --blue:      #2b4d7a;
-      --blue-lt:   #dce8f5;
+      --green:       #4caf50;
+      --green-light: #a5d6a7;
+      --green-dark:  #2e7d32;
+      --navy:        #0d2137;
+      --navy-mid:    #1a3a5c;
+      --cream:       #f0f7f0;
+      --white:       #ffffff;
+      --ribbon:      #6abf69;
+
+      /* derived */
+      --green-faint: #e8f5e9;
+      --navy-faint:  #e3eaf2;
+      --border:      #c8e6c9;
+      --text-muted:  #3a6644;
+      --text-soft:   #6a9e78;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       background: var(--cream);
-      color: var(--ink);
+      color: var(--navy);
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
-    body::before {
+    /* ambient glow */
+    body::after {
       content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 48% at 98%  2%, rgba(106,191,105,.22) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 34% at  2% 98%, rgba(13,33,55,.10)    0%, transparent 55%);
     }
 
-    /* ── DECORATIVE CORNER ── */
-    .deco-corner {
-      position: fixed;
-      top: 0; right: 0;
-      width: 340px; height: 340px;
-      background: radial-gradient(circle at 100% 0%, var(--amber-lt) 0%, transparent 65%);
-      opacity: 0.45;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .deco-corner-bl {
-      position: fixed;
-      bottom: 0; left: 0;
-      width: 260px; height: 260px;
-      background: radial-gradient(circle at 0% 100%, var(--green-lt) 0%, transparent 65%);
-      opacity: 0.45;
-      pointer-events: none;
-      z-index: 0;
+    /* top ribbon */
+    .ribbon {
+      position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 999;
+      background: linear-gradient(90deg, var(--green-dark) 0%, var(--ribbon) 50%, var(--green) 100%);
     }
 
-    /* ── WRAPPER ── */
     .wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 60px 28px 100px;
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 76px 28px 110px;
     }
 
-    /* ── HEADER ── */
-    header {
-      margin-bottom: 56px;
-      animation: fadeUp 0.7s ease both;
-    }
+    /* ═══════════════════════════
+       HEADER
+    ═══════════════════════════ */
+    header { margin-bottom: 48px; animation: fadeUp .7s ease both; }
+
     .eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--green-dark); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
     }
     .eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 28px; height: 1.5px;
-      background: var(--amber);
+      content: ''; display: inline-block; width: 34px; height: 2px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      border-radius: 2px;
     }
+
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      font-weight: 900;
-      line-height: 1.08;
-      color: var(--ink);
-      letter-spacing: -0.02em;
+      font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+      font-weight: 900; line-height: 1.04;
+      color: var(--navy); letter-spacing: -.026em;
     }
-    h1 span {
-      color: var(--amber);
+    h1 em {
+      font-style: normal; color: var(--green-dark); position: relative;
+      display: inline-block;
     }
+    h1 em::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 1px; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      border-radius: 2px; opacity: .55;
+    }
+
     .subtitle {
-      margin-top: 18px;
-      font-size: 0.95rem;
-      color: var(--ink-light);
-      font-weight: 300;
-      max-width: 500px;
-      line-height: 1.65;
+      margin-top: 16px; font-size: .93rem; font-weight: 300;
+      color: var(--text-muted); max-width: 520px; line-height: 1.72;
     }
-    .meta-pills {
-      margin-top: 22px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+
+    .meta-pills { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
     .pill {
-      background: var(--warm-off);
-      border: 1px solid var(--sand);
-      border-radius: 100px;
-      padding: 5px 14px;
-      font-size: 0.78rem;
-      font-family: 'DM Mono', monospace;
-      color: var(--ink-mid);
-      letter-spacing: 0.05em;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 100px; padding: 5px 15px;
+      font-size: .74rem; font-family: 'DM Mono', monospace;
+      color: var(--navy-mid); letter-spacing: .05em;
     }
-    .pill.amber { background: var(--amber-bg); border-color: var(--amber-lt); color: var(--amber); }
+    .pill.green   { background: var(--green-faint); border-color: var(--green-light); color: var(--green-dark); font-weight: 500; }
+    .pill.warning { background: #fff8e1; border-color: #ffe082; color: #7a5200; }
 
-    /* ── DIVIDER ── */
-    .divider {
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, var(--sand) 0%, transparent 100%);
-      margin: 40px 0;
-    }
+    /* divider */
+    .divider { height: 1px; background: linear-gradient(90deg, var(--border), transparent 80%); margin: 40px 0; }
 
-    /* ── SECTION LABEL ── */
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10.5px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-bottom: 24px;
+    /* section label */
+    .sec-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: .24em; text-transform: uppercase;
+      color: var(--text-soft); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
     }
+    .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    /* ── EXAM CARDS ── */
-    .cards {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    /* ═══════════════════════════
+       HOLIDAY BANNER
+    ═══════════════════════════ */
+    .hol-banner {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: #fffde7; border: 1px solid #ffe082;
+      border-left: 4px solid #f9a825; border-radius: 10px;
+      padding: 14px 18px; margin-bottom: 28px;
+      font-size: .84rem; color: #6d4c00; line-height: 1.65;
+      animation: fadeUp .6s .08s ease both;
     }
+    .hol-banner svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ═══════════════════════════
+       EXAM CARDS
+    ═══════════════════════════ */
+    .cards { display: flex; flex-direction: column; gap: 10px; }
 
     .card {
-      display: grid;
-      grid-template-columns: 72px 1fr auto;
-      gap: 0 24px;
-      align-items: stretch;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--sand);
-      animation: fadeUp 0.55s ease both;
-      position: relative;
-      transition: background 0.2s;
-      border-radius: 4px;
-      cursor: default;
+      display: grid; grid-template-columns: 86px 1fr auto;
+      gap: 0 22px; align-items: center;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 22px;
+      position: relative; overflow: hidden; cursor: default;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      animation: fadeUp .5s ease both;
     }
-    .card:first-child { border-top: 1px solid var(--sand); }
     .card::before {
-      content: '';
-      position: absolute;
-      left: -28px; top: 0; bottom: 0;
-      width: 3px;
-      background: transparent;
-      border-radius: 0 3px 3px 0;
-      transition: background 0.2s;
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+      background: linear-gradient(180deg, var(--green) 0%, var(--green-dark) 100%);
+      border-radius: 16px 0 0 16px;
     }
-    .card:hover {
-      background: var(--warm-off);
-      margin: 0 -14px;
-      padding-left: 14px;
-      padding-right: 14px;
-    }
-    .card:hover::before { background: var(--amber); }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(46,125,50,.14); border-color: var(--green-light); }
 
-    /* Date block */
-    .card-date {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 2px;
-      min-width: 72px;
-    }
-    .date-day {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.1rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .date-month {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-top: 3px;
-    }
-    .date-weekday {
-      font-size: 0.7rem;
-      color: var(--ink-light);
-      margin-top: 2px;
-      font-weight: 500;
-    }
+    /* highlight first card */
+    .card.anchor { background: var(--green-faint); border-color: var(--green-light); }
 
-    /* Card body */
-    .card-body {
-      flex: 1;
-    }
-    .course-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.13rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.25;
-      margin-bottom: 6px;
-    }
-    .course-code {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      color: var(--stone);
-      margin-bottom: 10px;
-    }
-    .card-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .card:nth-child(1){animation-delay:.10s}
+    .card:nth-child(2){animation-delay:.19s}
+    .card:nth-child(3){animation-delay:.28s}
+    .card:nth-child(4){animation-delay:.37s}
+    .card:nth-child(5){animation-delay:.46s}
+
+    /* date block */
+    .card-date { display: flex; flex-direction: column; align-items: center; padding-left: 8px; text-align: center; }
+    .d-num  { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .d-mon  { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-soft); margin-top: 3px; }
+    .d-wday { font-size: .66rem; font-weight: 500; color: var(--green-dark); margin-top: 4px; background: var(--green-faint); border: 1px solid var(--border); border-radius: 100px; padding: 2px 8px; white-space: nowrap; }
+
+    /* body */
+    .card-body { flex: 1; }
+    .c-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); line-height: 1.22; margin-bottom: 5px; }
+    .c-code { font-family: 'DM Mono', monospace; font-size: .69rem; letter-spacing: .12em; color: var(--text-soft); margin-bottom: 10px; }
+    .tags   { display: flex; gap: 7px; flex-wrap: wrap; }
     .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 10px;
-      border-radius: 4px;
-      font-size: 0.73rem;
-      font-weight: 500;
-    }
-    .tag-venue {
-      background: var(--blue-lt);
-      color: var(--blue);
-    }
-    .tag-time {
-      background: var(--amber-bg);
-      color: #9a5a10;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 11px; border-radius: 6px;
+      font-size: .71rem; font-weight: 500; font-family: 'DM Mono', monospace;
     }
     .tag svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .tag-v  { background: var(--navy-faint); color: var(--navy-mid); }
+    .tag-pm { background: var(--green-faint); color: var(--green-dark); border: 1px solid var(--border); }
+    .tag-am { background: #e3f2fd; color: #1a4f7a; border: 1px solid #bbdefb; }
 
-    /* Card number */
-    .card-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--sand);
-      line-height: 1;
-      align-self: center;
-      user-select: none;
-      transition: color 0.2s;
-      min-width: 42px;
-      text-align: right;
+    /* card number */
+    .c-num {
+      font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 900;
+      color: var(--green-faint); line-height: 1; user-select: none;
+      min-width: 46px; text-align: right; transition: color .18s;
     }
-    .card:hover .card-num { color: var(--amber-lt); }
+    .card:hover .c-num { color: var(--green-light); }
 
-    /* ── STAGGER ANIMATIONS ── */
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.3s; }
-    .card:nth-child(4) { animation-delay: 0.4s; }
-    .card:nth-child(5) { animation-delay: 0.5s; }
+    /* ═══════════════════════════
+       LIVE COUNTDOWN
+    ═══════════════════════════ */
+    .cd-section { margin-top: 52px; animation: fadeUp .6s .52s ease both; }
+    .cd-grid    { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0);    }
-    }
-
-    /* ── SUMMARY STRIP ── */
-    .summary {
-      margin-top: 52px;
-      background: var(--warm-off);
-      border: 1px solid var(--sand);
-      border-radius: 12px;
-      padding: 28px 32px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      animation: fadeUp 0.7s 0.6s ease both;
-    }
-    .stat { text-align: center; }
-    .stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--amber);
-      display: block;
-    }
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--ink-light);
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
-    .stat + .stat {
-      border-left: 1px solid var(--sand);
-    }
-
-    /* ── NOTICE BANNER ── */
-    .notice {
-      margin-top: 28px;
-      background: var(--amber-bg);
-      border: 1px solid var(--amber-lt);
-      border-left: 4px solid var(--amber);
-      border-radius: 8px;
-      padding: 16px 20px;
-      font-size: 0.83rem;
-      color: #7a4e10;
-      line-height: 1.6;
-      animation: fadeUp 0.7s 0.7s ease both;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .notice svg { flex-shrink: 0; margin-top: 1px; }
-
-    /* ── FOOTER ── */
-    footer {
-      margin-top: 64px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.75rem;
-      color: var(--stone);
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.06em;
-      border-top: 1px solid var(--sand);
-      padding-top: 24px;
-      animation: fadeUp 0.7s 0.8s ease both;
-    }
-
-    /* ── COUNTDOWN ── */
-    .countdown-section {
-      margin-top: 40px;
-      animation: fadeUp 0.7s 0.65s ease both;
-    }
-    .countdown-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
     .cd-card {
-      background: white;
-      border: 1px solid var(--sand);
-      border-radius: 12px;
-      padding: 18px 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 16px;
-      transition: box-shadow 0.2s, border-color 0.2s;
-      position: relative;
-      overflow: hidden;
+      background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px 22px; display: grid; grid-template-columns: 1fr auto;
+      align-items: center; gap: 16px;
+      position: relative; overflow: hidden;
+      transition: box-shadow .2s, border-color .2s;
     }
-    .cd-card::after {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 4px;
-      background: var(--sand);
-      transition: background 0.3s;
+    .cd-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--border); transition: background .3s;
     }
-    .cd-card.urgent::after  { background: #c97c2e; }
-    .cd-card.soon::after    { background: #2b4d7a; }
-    .cd-card.done::after    { background: #bbb; }
-    .cd-card.today::after   { background: #3a6b4a; }
-    .cd-card:hover { box-shadow: 0 4px 24px rgba(201,124,46,0.1); border-color: var(--amber-lt); }
+    .cd-card.sf::before { background: linear-gradient(180deg, var(--green), var(--green-dark)); }
+    .cd-card.su::before { background: linear-gradient(180deg, #ffa726, #e65100); }
+    .cd-card.st::before { background: linear-gradient(180deg, var(--ribbon), var(--green-dark)); }
+    .cd-card.sd::before { background: #ccc; }
+    .cd-card:hover { box-shadow: 0 4px 22px rgba(46,125,50,.11); border-color: var(--green-light); }
 
-    .cd-info {}
-    .cd-course {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-    .cd-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--stone);
-      letter-spacing: 0.08em;
-      margin-top: 4px;
-    }
+    .cd-name { font-family: 'Playfair Display', serif; font-size: .92rem; font-weight: 700; color: var(--navy); }
+    .cd-meta { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--text-soft); letter-spacing: .07em; margin-top: 4px; }
 
-    .cd-ticker {
-      display: flex;
-      gap: 6px;
-      align-items: flex-end;
-      flex-shrink: 0;
-    }
-    .cd-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    .cd-ticker { display: flex; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+    .cd-unit   { display: flex; flex-direction: column; align-items: center; }
     .cd-val {
-      font-family: 'DM Mono', monospace;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--amber);
-      line-height: 1;
-      min-width: 2ch;
-      text-align: center;
-      transition: color 0.3s;
+      font-family: 'DM Mono', monospace; font-size: 1.55rem; font-weight: 500;
+      color: var(--green-dark); line-height: 1; min-width: 2.3ch; text-align: center;
+      transition: color .3s;
     }
-    .cd-card.done .cd-val   { color: #bbb; }
-    .cd-card.today .cd-val  { color: #3a6b4a; }
-    .cd-card.urgent .cd-val { color: #c97c2e; }
-    .cd-card.soon .cd-val   { color: #2b4d7a; }
-    .cd-unit-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--stone);
-      margin-top: 3px;
-    }
-    .cd-sep {
-      font-family: 'DM Mono', monospace;
-      font-size: 1.1rem;
-      color: var(--sand);
-      padding-bottom: 4px;
-      line-height: 1;
-    }
-    .cd-done-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #aaa;
-      padding: 4px 10px;
-      border: 1px solid #ddd;
-      border-radius: 100px;
-    }
-    .cd-today-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #3a6b4a;
-      padding: 4px 10px;
-      border: 1px solid #3a6b4a44;
-      border-radius: 100px;
-      background: var(--green-lt);
-      animation: pulse 1.4s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.55; }
-    }
+    .su .cd-val { color: #e65100; }
+    .st .cd-val { color: var(--green-dark); }
+    .sd .cd-val { color: #ccc; }
+    .cd-lbl { font-family: 'DM Mono', monospace; font-size: .5rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-soft); margin-top: 3px; }
+    .cd-sep { font-size: 1.15rem; color: var(--border); padding-bottom: 7px; line-height: 1; font-family: 'DM Mono', monospace; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .card { grid-template-columns: 58px 1fr; }
-      .card-num { display: none; }
-      .summary { grid-template-columns: 1fr 1fr; }
-      .summary .stat:last-child { grid-column: 1/-1; border-left: none; border-top: 1px solid var(--sand); padding-top: 20px; }
+    .badge       { font-family: 'DM Mono', monospace; font-size: .69rem; letter-spacing: .13em; text-transform: uppercase; padding: 5px 13px; border-radius: 100px; }
+    .b-done      { color: #bbb; border: 1px solid #e0e0e0; background: #fafafa; }
+    .b-today     { color: var(--green-dark); border: 1px solid var(--green-light); background: var(--green-faint); animation: blink 1.4s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+    /* ═══════════════════════════
+       SUMMARY STRIP
+    ═══════════════════════════ */
+    .summary {
+      margin-top: 44px; background: var(--navy); border-radius: 18px;
+      padding: 34px 40px; display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+      animation: fadeUp .6s .62s ease both; position: relative; overflow: hidden;
+    }
+    .summary::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(135deg, rgba(76,175,80,.18) 0%, transparent 55%);
+    }
+    .summary::after {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(106,191,105,.08); pointer-events: none;
+    }
+    .stat { text-align: center; position: relative; z-index: 1; }
+    .s-val   { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--green); display: block; line-height: 1; }
+    .s-label { font-size: .7rem; color: var(--green-light); font-family: 'DM Mono', monospace; letter-spacing: .13em; text-transform: uppercase; margin-top: 7px; opacity: .8; }
+    .stat + .stat { border-left: 1px solid rgba(165,214,167,.2); }
+
+    /* ═══════════════════════════
+       NOTICE
+    ═══════════════════════════ */
+    .notice {
+      margin-top: 16px; display: flex; gap: 12px; align-items: flex-start;
+      background: var(--green-faint); border: 1px solid var(--green-light);
+      border-left: 4px solid var(--green-dark); border-radius: 10px;
+      padding: 14px 20px; font-size: .83rem; color: var(--green-dark); line-height: 1.68;
+      animation: fadeUp .6s .7s ease both;
+    }
+    .notice svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ═══════════════════════════
+       FOOTER
+    ═══════════════════════════ */
+    footer {
+      margin-top: 56px; display: flex; justify-content: space-between; align-items: center;
+      font-size: .72rem; color: var(--text-soft); font-family: 'DM Mono', monospace;
+      letter-spacing: .07em; border-top: 1px solid var(--border); padding-top: 22px;
+      animation: fadeUp .6s .78s ease both;
+    }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); display: inline-block; margin: 0 7px; vertical-align: middle; }
+
+    /* animation */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* responsive */
+    @media (max-width: 640px) {
+      .card { grid-template-columns: 70px 1fr; padding: 18px 14px; }
+      .c-num { display: none; }
+      .summary { grid-template-columns: 1fr 1fr; padding: 24px 18px; }
+      .summary .stat:last-child { grid-column:1/-1; border-left:none; border-top:1px solid rgba(165,214,167,.2); padding-top:18px; }
       .stat + .stat { border-left: none; }
-      .countdown-grid { grid-template-columns: repeat(3, 1fr); }
+      .cd-card { grid-template-columns: 1fr; }
+      .cd-ticker { margin-top: 10px; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <div class="deco-corner"></div>
-  <div class="deco-corner-bl"></div>
 
-  <div class="wrapper">
+<div class="ribbon"></div>
 
-    <!-- HEADER -->
-    <header>
-      <div class="eyebrow">May – June 2026 &nbsp;·&nbsp; Final Examinations</div>
-      <h1>Exam<br/><span>Timetable</span></h1>
-      <p class="subtitle">
-        Official examination schedule for the current semester.
-        Arrive at least 15 minutes before each session. Bring your student ID.
-      </p>
-      <div class="meta-pills">
-        <span class="pill amber">BSCBITY2S2</span>
-        <span class="pill">BSc Business IT · Year 2 · Sem 2</span>
-        <span class="pill">Session: 2026</span>
+<div class="wrapper">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="eyebrow">May 2026 &nbsp;·&nbsp; Revised Final Examinations</div>
+    <h1>Exam<br/><em>Timetable</em></h1>
+    <p class="subtitle">
+      Official updated examination schedule for the current semester.
+      Arrive at least 15 minutes before each session and bring your student ID.
+    </p>
+    <div class="meta-pills">
+      <span class="pill green">BSCBITY2S2</span>
+      <span class="pill">BSc Business IT · Year 2 · Sem 2</span>
+      <span class="pill">Session: 2026</span>
+      <span class="pill warning">⚠ Mon 19 &amp; 26 May — Public Holidays</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ── HOLIDAY NOTICE ── -->
+  <div class="hol-banner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f9a825" stroke-width="2.5">
+      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+    <span>
+      <strong>Schedule Update:</strong> Monday <strong>26 May 2026</strong> is a <strong>Public Holiday</strong>. Exams that would have fallen on that Monday have been shifted forward — the rescheduled week now runs <strong>Tuesday 26 May through Friday 29 May</strong>. The <strong>18 May (Sunday) exam remains unchanged</strong>. Check the faculty noticeboard for any further updates.
+    </span>
+  </div>
+
+  <!-- ── EXAM CARDS ── -->
+  <div class="sec-label">Scheduled Examinations</div>
+  <div class="cards">
+
+    <!-- 1: 18 May — Business Statistics -->
+    <div class="card anchor">
+      <div class="card-date">
+        <span class="d-num">18</span>
+        <span class="d-mon">May</span>
+        <span class="d-wday">Sunday</span>
       </div>
-    </header>
-
-    <div class="divider"></div>
-
-    <!-- EXAMS LIST -->
-    <div class="section-label">Scheduled Examinations</div>
-    <div class="cards" id="examCards">
-
-      <!-- Card 1 -->
-      <div class="card">
-        <div class="card-date">
-          <span class="date-day">18</span>
-          <span class="date-month">May</span>
-          <span class="date-weekday">Monday</span>
+      <div class="card-body">
+        <div class="c-name">Business Statistics</div>
+        <div class="c-code">BIBS 2210</div>
+        <div class="tags">
+          <span class="tag tag-v">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hall 4
+          </span>
+          <span class="tag tag-pm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            13:00 – 16:00
+          </span>
         </div>
-        <div class="card-body">
-          <div class="course-name">Business Statistics</div>
-          <div class="course-code">BIBS 2210</div>
-          <div class="card-tags">
-            <span class="tag tag-venue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              Hall 4
-            </span>
-            <span class="tag tag-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              13:00 – 16:00
-            </span>
-          </div>
-        </div>
-        <div class="card-num">01</div>
       </div>
-
-      <!-- Card 2 -->
-      <div class="card">
-        <div class="card-date">
-          <span class="date-day">25</span>
-          <span class="date-month">May</span>
-          <span class="date-weekday">Monday</span>
-        </div>
-        <div class="card-body">
-          <div class="course-name">System Analysis &amp; Design</div>
-          <div class="course-code">BISA 2210</div>
-          <div class="card-tags">
-            <span class="tag tag-venue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              Hall 6
-            </span>
-            <span class="tag tag-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              13:00 – 16:00
-            </span>
-          </div>
-        </div>
-        <div class="card-num">02</div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card">
-        <div class="card-date">
-          <span class="date-day">26</span>
-          <span class="date-month">May</span>
-          <span class="date-weekday">Tuesday</span>
-        </div>
-        <div class="card-body">
-          <div class="course-name">Business Information Systems</div>
-          <div class="course-code">BIIS 1210</div>
-          <div class="card-tags">
-            <span class="tag tag-venue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              Hall 5
-            </span>
-            <span class="tag tag-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              13:00 – 16:00
-            </span>
-          </div>
-        </div>
-        <div class="card-num">03</div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="card">
-        <div class="card-date">
-          <span class="date-day">27</span>
-          <span class="date-month">May</span>
-          <span class="date-weekday">Wednesday</span>
-        </div>
-        <div class="card-body">
-          <div class="course-name">Database Systems</div>
-          <div class="course-code">BIDS 2210</div>
-          <div class="card-tags">
-            <span class="tag tag-venue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              MM2 &amp; 4
-            </span>
-            <span class="tag tag-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              09:00 – 12:00
-            </span>
-          </div>
-        </div>
-        <div class="card-num">04</div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="card">
-        <div class="card-date">
-          <span class="date-day">28</span>
-          <span class="date-month">May</span>
-          <span class="date-weekday">Thursday</span>
-        </div>
-        <div class="card-body">
-          <div class="course-name">Cloud Computing</div>
-          <div class="course-code">BICC 2210</div>
-          <div class="card-tags">
-            <span class="tag tag-venue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              Hall 7
-            </span>
-            <span class="tag tag-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              13:00 – 16:00
-            </span>
-          </div>
-        </div>
-        <div class="card-num">05</div>
-      </div>
-
-    </div><!-- /cards -->
-
-    <!-- COUNTDOWN -->
-    <div class="countdown-section">
-      <div class="section-label">Days Until Each Exam</div>
-      <div class="countdown-grid" id="countdownGrid"></div>
+      <div class="c-num">01</div>
     </div>
 
-    <!-- SUMMARY STRIP -->
-    <div class="summary">
-      <div class="stat">
-        <span class="stat-val">5</span>
-        <span class="stat-label">Examinations</span>
+    <!-- 2: 26 May — Business Information Systems -->
+    <div class="card">
+      <div class="card-date">
+        <span class="d-num">26</span>
+        <span class="d-mon">May</span>
+        <span class="d-wday">Tuesday</span>
       </div>
-      <div class="stat">
-        <span class="stat-val">11</span>
-        <span class="stat-label">Days Span</span>
-      </div>
-      <div class="stat">
-        <span class="stat-val">3 hrs</span>
-        <span class="stat-label">Per Session</span>
-      </div>
-    </div>
-
-    <!-- NOTICE -->
-    <div class="notice">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c97c2e" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
-      <span>
-        <strong>Important:</strong> Report any venue or timetable clashes to your Faculty Administrator as soon as possible — not on the day of the examination. Keep this schedule for your records and verify with the official noticeboard for any last-minute updates.
-      </span>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-      <span>BSCBITY2S2 &nbsp;·&nbsp; May / June 2026</span>
-      <span id="printedOn"></span>
-    </footer>
-
-  </div><!-- /wrapper -->
-
-  <script>
-    // ── LIVE COUNTDOWN ──
-    const exams = [
-      { date: '2026-05-18', time: '13:00', name: 'Business Statistics',      code: 'BIBS 2210' },
-      { date: '2026-05-25', time: '13:00', name: 'System Analysis & Design', code: 'BISA 2210' },
-      { date: '2026-05-26', time: '13:00', name: 'Business Info Systems',    code: 'BIIS 1210' },
-      { date: '2026-05-27', time: '09:00', name: 'Database Systems',         code: 'BIDS 2210' },
-      { date: '2026-05-28', time: '13:00', name: 'Cloud Computing',          code: 'BICC 2210' },
-    ];
-
-    const grid = document.getElementById('countdownGrid');
-
-    // Build cards once
-    const cards = exams.map((e, i) => {
-      const card = document.createElement('div');
-      card.className = 'cd-card';
-
-      const [hh, mm] = e.time.split(':').map(Number);
-      const examDateTime = new Date(e.date);
-      examDateTime.setHours(hh, mm, 0, 0);
-
-      const dateLabel = examDateTime.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'long' });
-      const timeLabel = e.time + ':00';
-
-      card.innerHTML = `
-        <div class="cd-info">
-          <div class="cd-course">${e.name}</div>
-          <div class="cd-meta">${e.code} &nbsp;·&nbsp; ${dateLabel} &nbsp;·&nbsp; ${timeLabel}</div>
+      <div class="card-body">
+        <div class="c-name">Business Information Systems</div>
+        <div class="c-code">BIIS 1210</div>
+        <div class="tags">
+          <span class="tag tag-v">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hall 5
+          </span>
+          <span class="tag tag-pm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            13:00 – 16:00
+          </span>
         </div>
-        <div class="cd-ticker" id="ticker-${i}"></div>
-      `;
-      grid.appendChild(card);
-      return { card, examDateTime, tickerId: `ticker-${i}` };
+      </div>
+      <div class="c-num">02</div>
+    </div>
+
+    <!-- 3: 27 May — Database Systems -->
+    <div class="card">
+      <div class="card-date">
+        <span class="d-num">27</span>
+        <span class="d-mon">May</span>
+        <span class="d-wday">Wednesday</span>
+      </div>
+      <div class="card-body">
+        <div class="c-name">Database Systems</div>
+        <div class="c-code">BIDS 2210</div>
+        <div class="tags">
+          <span class="tag tag-v">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            MM2 &amp; 4
+          </span>
+          <span class="tag tag-am">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            09:00 – 12:00
+          </span>
+        </div>
+      </div>
+      <div class="c-num">03</div>
+    </div>
+
+    <!-- 4: 28 May — Cloud Computing -->
+    <div class="card">
+      <div class="card-date">
+        <span class="d-num">28</span>
+        <span class="d-mon">May</span>
+        <span class="d-wday">Thursday</span>
+      </div>
+      <div class="card-body">
+        <div class="c-name">Cloud Computing</div>
+        <div class="c-code">BICC 2210</div>
+        <div class="tags">
+          <span class="tag tag-v">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hall 7
+          </span>
+          <span class="tag tag-pm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            13:00 – 16:00
+          </span>
+        </div>
+      </div>
+      <div class="c-num">04</div>
+    </div>
+
+    <!-- 5: 29 May — System Analysis & Design -->
+    <div class="card">
+      <div class="card-date">
+        <span class="d-num">29</span>
+        <span class="d-mon">May</span>
+        <span class="d-wday">Friday</span>
+      </div>
+      <div class="card-body">
+        <div class="c-name">System Analysis &amp; Design</div>
+        <div class="c-code">BISA 2210</div>
+        <div class="tags">
+          <span class="tag tag-v">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Hall 6
+          </span>
+          <span class="tag tag-pm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            13:00 – 16:00
+          </span>
+        </div>
+      </div>
+      <div class="c-num">05</div>
+    </div>
+
+  </div><!-- /cards -->
+
+  <!-- ── LIVE COUNTDOWN ── -->
+  <div class="cd-section">
+    <div class="sec-label">Live Countdown to Each Exam</div>
+    <div class="cd-grid" id="cdGrid"></div>
+  </div>
+
+  <!-- ── SUMMARY ── -->
+  <div class="summary">
+    <div class="stat">
+      <span class="s-val">5</span>
+      <span class="s-label">Examinations</span>
+    </div>
+    <div class="stat">
+      <span class="s-val">12</span>
+      <span class="s-label">Days Span</span>
+    </div>
+    <div class="stat">
+      <span class="s-val">3 hrs</span>
+      <span class="s-label">Per Session</span>
+    </div>
+  </div>
+
+  <!-- ── NOTICE ── -->
+  <div class="notice">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="2.5">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span>
+      <strong>Important:</strong> Report any venue or timetable clashes to your Faculty Administrator <em>as soon as possible</em> — not on the day of the examination. Keep this schedule for your records and always verify against the official faculty noticeboard for last-minute updates.
+    </span>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <span>BSCBITY2S2 <span class="dot"></span> May 2026 <span class="dot"></span> Revised Schedule</span>
+    <span id="genDate"></span>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+  /* ═══════════════════════════════════════════════
+     CONFIRMED EXAM DATA
+  ═══════════════════════════════════════════════ */
+  const EXAMS = [
+    { date: '2026-05-18', time: '13:00', end: '16:00', name: 'Business Statistics',      code: 'BIBS 2210', venue: 'Hall 4'   },
+    { date: '2026-05-26', time: '13:00', end: '16:00', name: 'Business Info Systems',    code: 'BIIS 1210', venue: 'Hall 5'   },
+    { date: '2026-05-27', time: '09:00', end: '12:00', name: 'Database Systems',         code: 'BIDS 2210', venue: 'MM2 & 4'  },
+    { date: '2026-05-28', time: '13:00', end: '16:00', name: 'Cloud Computing',          code: 'BICC 2210', venue: 'Hall 7'   },
+    { date: '2026-05-29', time: '13:00', end: '16:00', name: 'System Analysis & Design', code: 'BISA 2210', venue: 'Hall 6'   },
+  ];
+
+  /* ═══════════════════════════════════════════════
+     BUILD COUNTDOWN CARDS
+  ═══════════════════════════════════════════════ */
+  const grid = document.getElementById('cdGrid');
+
+  const items = EXAMS.map((e, i) => {
+    const [hh, mm] = e.time.split(':').map(Number);
+    const dt = new Date(e.date);
+    dt.setHours(hh, mm, 0, 0);
+
+    const dayLabel = dt.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+
+    const card = document.createElement('div');
+    card.className = 'cd-card';
+    card.innerHTML = `
+      <div>
+        <div class="cd-name">${e.name}</div>
+        <div class="cd-meta">${e.code} &nbsp;·&nbsp; ${dayLabel} &nbsp;·&nbsp; ${e.time}–${e.end} &nbsp;·&nbsp; ${e.venue}</div>
+      </div>
+      <div class="cd-ticker" id="t${i}"></div>
+    `;
+    grid.appendChild(card);
+    return { card, dt, tid: `t${i}` };
+  });
+
+  /* ═══════════════════════════════════════════════
+     TICK — updates every second
+  ═══════════════════════════════════════════════ */
+  function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+  function tick() {
+    const now = new Date();
+    items.forEach(({ card, dt, tid }) => {
+      const diff   = dt - now;
+      const ticker = document.getElementById(tid);
+
+      // reset state classes
+      card.classList.remove('sf', 'su', 'st', 'sd');
+
+      if (diff <= 0) {
+        card.classList.add('sd');
+        ticker.innerHTML = `<span class="badge b-done">Completed</span>`;
+        return;
+      }
+
+      const totalS = diff / 1000;
+      const days   = Math.floor(totalS / 86400);
+      const hrs    = Math.floor((totalS % 86400) / 3600);
+      const mins   = Math.floor((totalS % 3600)  / 60);
+      const secs   = Math.floor(totalS % 60);
+
+      // Exam day — within last hour before start
+      if (days === 0 && hrs < 1) {
+        card.classList.add('st');
+        ticker.innerHTML = `<span class="badge b-today">Exam Today!</span>`;
+        return;
+      }
+
+      // Urgency colour
+      card.classList.add(days <= 1 ? 'su' : 'sf');
+
+      // Build ticker HTML
+      let html = '';
+      if (days > 0) {
+        html += `<div class="cd-unit"><span class="cd-val">${pad(days)}</span><span class="cd-lbl">days</span></div><span class="cd-sep">:</span>`;
+      }
+      html += `<div class="cd-unit"><span class="cd-val">${pad(hrs)}</span><span class="cd-lbl">hrs</span></div>`;
+      html += `<span class="cd-sep">:</span>`;
+      html += `<div class="cd-unit"><span class="cd-val">${pad(mins)}</span><span class="cd-lbl">min</span></div>`;
+      html += `<span class="cd-sep">:</span>`;
+      html += `<div class="cd-unit"><span class="cd-val">${pad(secs)}</span><span class="cd-lbl">sec</span></div>`;
+      ticker.innerHTML = html;
     });
+  }
 
-    function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+  tick();
+  setInterval(tick, 1000);
 
-    function tick() {
-      const now = new Date();
-      cards.forEach(({ card, examDateTime, tickerId }) => {
-        const diff = examDateTime - now;
-        const ticker = document.getElementById(tickerId);
-
-        card.classList.remove('done', 'today', 'urgent', 'soon');
-
-        if (diff <= 0) {
-          // Exam has started or passed
-          card.classList.add('done');
-          ticker.innerHTML = `<span class="cd-done-badge">Completed</span>`;
-          return;
-        }
-
-        const totalSecs  = diff / 1000;
-        const days       = Math.floor(totalSecs / 86400);
-        const hours      = Math.floor((totalSecs % 86400) / 3600);
-        const minutes    = Math.floor((totalSecs % 3600) / 60);
-        const seconds    = Math.floor(totalSecs % 60);
-
-        if (days === 0 && hours === 0) {
-          card.classList.add('today');
-          ticker.innerHTML = `<span class="cd-today-badge">Exam Today!</span>`;
-          return;
-        }
-
-        if (days === 0) card.classList.add('today');
-        else if (days <= 2) card.classList.add('urgent');
-        else card.classList.add('soon');
-
-        let html = '';
-        if (days > 0) {
-          html += `<div class="cd-unit"><span class="cd-val" id="d-${tickerId}">${pad(days)}</span><span class="cd-unit-label">days</span></div>`;
-          html += `<span class="cd-sep">:</span>`;
-        }
-        html += `<div class="cd-unit"><span class="cd-val">${pad(hours)}</span><span class="cd-unit-label">hrs</span></div>`;
-        html += `<span class="cd-sep">:</span>`;
-        html += `<div class="cd-unit"><span class="cd-val">${pad(minutes)}</span><span class="cd-unit-label">min</span></div>`;
-        html += `<span class="cd-sep">:</span>`;
-        html += `<div class="cd-unit"><span class="cd-val">${pad(seconds)}</span><span class="cd-unit-label">sec</span></div>`;
-
-        ticker.innerHTML = html;
-      });
-    }
-
-    tick();
-    setInterval(tick, 1000);
-
-    // ── FOOTER DATE ──
-    document.getElementById('printedOn').textContent =
-      'Generated ' + new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
-  </script>
+  /* footer date */
+  document.getElementById('genDate').textContent =
+    'Updated ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+</script>
 </body>
 </html>
